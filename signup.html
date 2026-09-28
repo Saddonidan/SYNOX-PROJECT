@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f2f5f2;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1c2b1c;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 400px;
+      margin: 24px;
+      padding: 32px;
+      background: #fff;
+      border: 1px solid #d5ded5;
+      border-radius: 6px;
+    }
+
+    h1 { margin: 0 0 4px; font-size: 26px; }
+    .sub { margin: 0 0 24px; color: #5b6b5b; font-size: 15px; }
+
+    label { display: block; margin: 16px 0 6px; font-size: 14px; font-weight: bold; }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #b7c4b7;
+      border-radius: 4px;
+    }
+
+    input:focus {
+      outline: 2px solid green;
+      outline-offset: 1px;
+      border-color: green;
+    }
+
+    .error { display: none; margin-top: 4px; color: #b3261e; font-size: 13px; }
+    .invalid input { border-color: #b3261e; }
+    .invalid .error { display: block; }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: green;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #006400; }
+
+    .login { margin: 20px 0 0; text-align: center; font-size: 14px; }
+    .login a { color: green; }
+
+    #success { display: none; margin-top: 16px; padding: 12px; background: #e6f4e6; color: #145214; border-radius: 4px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Create your account</h1>
+    <p class="sub">It takes less than a minute.</p>
+
+    <form id="signupForm" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" autocomplete="name" required>
+        <div class="error">Enter your full name.</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+        <div class="error">Enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" required>
+        <div class="error">Use at least 8 characters.</div>
+      </div>
+
+      <div class="field">
+        <label for="confirm">Confirm password</label>
+        <input type="password" id="confirm" name="confirm" autocomplete="new-password" required>
+        <div class="error">Passwords do not match.</div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+      <div id="success">Account created. Welcome!</div>
+    </form>
+
+    <p class="login">Already have an account? <a href="login.html">Log in</a></p>
+  </main>
+
+  <script>
+    const form = document.getElementById("signupForm");
+
+    function check(id, isValid) {
+      const field = document.getElementById(id).closest(".field");
+      field.classList.toggle("invalid", !isValid);
+      return isValid;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+
+      const ok = [
+        check("name", name.length > 0),
+        check("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
+        check("password", password.length >= 8),
+        check("confirm", confirm === password && confirm.length > 0)
+      ].every(Boolean);
+
+      if (ok) {
+        document.getElementById("success").style.display = "block";
+        form.reset();
+        // To send the data to a server, or go to another page, add here:
+        // window.location.href = "welcome.html";
+      }
+    });
+  </script>
+</body>
+</html>
